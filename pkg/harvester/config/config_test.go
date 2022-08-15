@@ -6,6 +6,7 @@ import (
 	"io"
 	"testing"
 
+	"github.com/HewlettPackard/galadriel/pkg/common/telemetry"
 	"github.com/stretchr/testify/assert"
 )
 
