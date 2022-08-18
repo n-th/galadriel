@@ -26,17 +26,17 @@ type GetFederationRelationshipsParams struct {
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 
-	// (GET /FederationRelationship)
+	// (GET /federation-relationship)
 	GetFederationRelationships(ctx echo.Context, params GetFederationRelationshipsParams) error
 
-	// (GET /FederationRelationship/{relationshipID})
+	// (GET /federation-relationship/{relationshipID})
 	GetRelationshipbyID(ctx echo.Context, relationshipID int64) error
 
-	// (PUT /FederationRelationship/{relationshipID})
+	// (PUT /federation-relationship/{relationshipID})
 	UpdateFederatedRelationshipStatus(ctx echo.Context, relationshipID int64) error
 
-	// (PUT /trustBundles/{trustBundleId})
-	UpdateTrustBundle(ctx echo.Context, trustBundleId int64) error
+	// (PUT /trust-bundles/{trustBundleID})
+	UpdateTrustBundle(ctx echo.Context, trustBundleID int64) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -111,16 +111,16 @@ func (w *ServerInterfaceWrapper) UpdateFederatedRelationshipStatus(ctx echo.Cont
 // UpdateTrustBundle converts echo context to params.
 func (w *ServerInterfaceWrapper) UpdateTrustBundle(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "trustBundleId" -------------
-	var trustBundleId int64
+	// ------------- Path parameter "trustBundleID" -------------
+	var trustBundleID int64
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "trustBundleId", runtime.ParamLocationPath, ctx.Param("trustBundleId"), &trustBundleId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "trustBundleID", runtime.ParamLocationPath, ctx.Param("trustBundleID"), &trustBundleID)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter trustBundleId: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter trustBundleID: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.UpdateTrustBundle(ctx, trustBundleId)
+	err = w.Handler.UpdateTrustBundle(ctx, trustBundleID)
 	return err
 }
 
@@ -152,9 +152,9 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 		Handler: si,
 	}
 
-	router.GET(baseURL+"/FederationRelationship", wrapper.GetFederationRelationships)
-	router.GET(baseURL+"/FederationRelationship/:relationshipID", wrapper.GetRelationshipbyID)
-	router.PUT(baseURL+"/FederationRelationship/:relationshipID", wrapper.UpdateFederatedRelationshipStatus)
-	router.PUT(baseURL+"/trustBundles/:trustBundleId", wrapper.UpdateTrustBundle)
+	router.GET(baseURL+"/federation-relationship", wrapper.GetFederationRelationships)
+	router.GET(baseURL+"/federation-relationship/:relationshipID", wrapper.GetRelationshipbyID)
+	router.PUT(baseURL+"/federation-relationship/:relationshipID", wrapper.UpdateFederatedRelationshipStatus)
+	router.PUT(baseURL+"/trust-bundles/:trustBundleID", wrapper.UpdateTrustBundle)
 
 }

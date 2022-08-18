@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build
+  scan:
+    name: Scan
     runs-on: "ubuntu-18.04"
     permissions:
       contents: read # for actions/checkout to fetch code

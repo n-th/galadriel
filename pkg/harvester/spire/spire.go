@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/HewlettPackard/galadriel/pkg/common"
+	"github.com/HewlettPackard/galadriel/pkg/common/telemetry"
 	"github.com/spiffe/go-spiffe/v2/bundle/spiffebundle"
 	"github.com/spiffe/spire-controller-manager/pkg/spireapi"
 )
@@ -21,7 +22,7 @@ type LocalSpireServer struct {
 
 func NewLocalSpireServer(socketPath string) SpireServer {
 	return &LocalSpireServer{
-		logger: *common.NewLogger("local_spire_server"),
+		logger: *common.NewLogger(telemetry.LocalSpireServer),
 	}
 }
 
@@ -30,6 +31,7 @@ func (s *LocalSpireServer) GetBundle(ctx context.Context) (*spiffebundle.Bundle,
 }
 
 func (s *LocalSpireServer) GetFederationRelationships(ctx context.Context) ([]spireapi.FederationRelationship, error) {
+
 	return nil, errors.New("not implemented")
 }
 

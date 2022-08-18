@@ -14,6 +14,9 @@ type HarvesterController interface {
 	common.RunnablePlugin
 	GetTrustBundle(context.Context, string) (string, error)
 	AddTrustBundle(context.Context, string) error
+	ApproveFederationRelationship(context.Context, string) (common.FederationRelationship, error)
+	DenyFederationRelationship(context.Context, string) (common.FederationRelationship, error)
+	GetFederationRelationshipsByStatus(context.Context, string) ([]common.FederationRelationship, error)
 }
 
 type LocalHarvesterController struct {
@@ -45,6 +48,36 @@ func (c *LocalHarvesterController) GetTrustBundle(ctx context.Context, spiffeID 
 func (c *LocalHarvesterController) AddTrustBundle(ctx context.Context, spiffeID string) error {
 	telemetry.Count(ctx, telemetry.HarvesterController, telemetry.TrustBundle, telemetry.Add)
 	return errors.New("not implemented")
+}
+
+func (c *LocalHarvesterController) ApproveFederationRelationship(ctx context.Context, spiffeID string) (common.FederationRelationship, error) {
+	telemetry.Count(ctx, telemetry.HarvesterController, telemetry.TrustBundle, telemetry.Approve)
+
+	var fr common.FederationRelationship
+	// response.Status = common.FederationRelationshipStatusActive
+
+	// if spireServerConsent and spireServerFederatedWithConsent == true => response.Status = common.FederationRelationshipStatusActive
+	// fr.spireServerConsent = True
+	return fr, errors.New("not implemented")
+}
+
+func (c *LocalHarvesterController) DenyFederationRelationship(ctx context.Context, spiffeID string) (common.FederationRelationship, error) {
+	telemetry.Count(ctx, telemetry.HarvesterController, telemetry.FederationRelationship, telemetry.Deny)
+
+	var fr common.FederationRelationship
+
+	// fr.spireServerConsent = False
+
+	return fr, errors.New("not implemented")
+}
+
+func (c *LocalHarvesterController) GetFederationRelationshipsByStatus(ctx context.Context, status string) ([]common.FederationRelationship, error) {
+	telemetry.Count(ctx, telemetry.HarvesterController, telemetry.FederationRelationship, telemetry.Get)
+
+	//spireId
+	var fr []common.FederationRelationship
+
+	return fr, errors.New("not implemented")
 }
 
 func (c *LocalHarvesterController) run(ctx context.Context) {
